@@ -13,3 +13,14 @@
         docker build -t marufuli707/marufacrdemo102126:1.0 . 
 ### 7 Tagging the docker image 
         docker tag marufacrdemo102126:1.0 marufacrdemo102126.azurecr.io/acr-demo-app:1.0 
+### 8 Trigger git with access token
+         export GIT_PAT="<insert your token here>"
+
+### 9 Creating task
+        az acr task create \
+  --registry marufacrdemo102126 \
+  --name acr-demo-task \
+  --image 'acr-demo-app:{{.Run.ID}}' \
+  --context https://github.com/isotop786/acr-demo.git#main \
+  --file Dockerfile \
+  --git-access-token $GIT_PAT
